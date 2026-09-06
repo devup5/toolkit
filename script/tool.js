@@ -1,5 +1,148 @@
 /* 各工具页面按需调用对应的 init 函数 */
 
+/* ================================================================
+   工具路由器 — 通过 hash 切换工具面板，懒加载初始化
+   ================================================================ */
+
+function initToolRouter() {
+  var TOOL_MAP = {
+    'python': {
+      panel: 'panel-python',
+      title: 'Python 在线运行 — 寒枝可栖',
+      init: function() {
+        if (typeof initPythonHighlight === 'function') initPythonHighlight();
+        if (typeof initPythonRunButton === 'function') initPythonRunButton();
+        if (typeof initPythonDownloadButton === 'function') initPythonDownloadButton();
+        if (typeof initPythonImportButton === 'function') initPythonImportButton();
+      }
+    },
+    'php': {
+      panel: 'panel-php',
+      title: 'PHP 在线运行 — 寒枝可栖',
+      init: function() {
+        if (typeof initPhpRun === 'function') initPhpRun();
+        if (typeof initPhpHighlight === 'function') initPhpHighlight();
+        if (typeof initPhpDownloadButton === 'function') initPhpDownloadButton();
+        if (typeof initPhpImportButton === 'function') initPhpImportButton();
+      }
+    },
+    'typescript': {
+      panel: 'panel-typescript',
+      title: 'TypeScript 在线运行 — 寒枝可栖',
+      init: function() {
+        if (typeof initTypeScript === 'function') initTypeScript();
+      }
+    },
+    'html': {
+      panel: 'panel-html',
+      title: 'HTML 在线预览 — 寒枝可栖',
+      init: function() {
+        if (typeof initHtmlPreview === 'function') initHtmlPreview();
+      }
+    },
+    'css': {
+      panel: 'panel-css',
+      title: 'CSS 在线预览 — 寒枝可栖',
+      init: function() {
+        if (typeof initCssPreview === 'function') initCssPreview();
+      }
+    },
+    'javascript': {
+      panel: 'panel-javascript',
+      title: 'JavaScript 在线预览 — 寒枝可栖',
+      init: function() {
+        if (typeof initJsPreview === 'function') initJsPreview();
+      }
+    },
+    'markdown': {
+      panel: 'panel-markdown',
+      title: 'Markdown 编辑器 — 寒枝可栖',
+      init: function() {
+        if (typeof initMarkdownEditor === 'function') initMarkdownEditor();
+        if (typeof initMarkdownActions === 'function') initMarkdownActions();
+        if (typeof initMarkdownImportButton === 'function') initMarkdownImportButton();
+      }
+    },
+    'css-fmt': {
+      panel: 'panel-css-fmt',
+      title: 'CSS 格式化/压缩 — 寒枝可栖',
+      init: function() {
+        if (typeof initCssFormatter === 'function') initCssFormatter();
+      }
+    },
+    'base64': {
+      panel: 'panel-base64',
+      title: 'Base64 加密/解密 — 寒枝可栖',
+      init: function() {
+        if (typeof initBase64 === 'function') initBase64();
+      }
+    },
+    'color': {
+      panel: 'panel-color',
+      title: '在线调色板 — 寒枝可栖',
+      init: function() {
+        if (typeof initColorPicker === 'function') initColorPicker();
+      }
+    }
+  };
+
+  var initialized = {};
+
+  function switchPanel(hash) {
+    var tool = TOOL_MAP[hash];
+    if (!tool) {
+      hash = 'python';
+      tool = TOOL_MAP[hash];
+      window.location.hash = 'python';
+    }
+
+    document.querySelectorAll('.try-panel').forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    var panel = document.getElementById(tool.panel);
+    if (panel) panel.classList.add('active');
+
+    if (!initialized[hash]) {
+      initialized[hash] = true;
+      tool.init();
+    }
+
+    document.title = tool.title;
+
+    updateSidebarActive(hash);
+  }
+
+  function updateSidebarActive(hash) {
+    document.querySelectorAll('.sidebar-sublink, .sidebar-dropdown-toggle').forEach(function(el) {
+      el.classList.remove('active');
+    });
+
+    var link = document.querySelector('[data-nav="tool.html#' + hash + '"]');
+    if (link) {
+      link.classList.add('active');
+      var dropdown = link.closest('.sidebar-dropdown');
+      if (dropdown) {
+        dropdown.classList.add('open');
+        var toggle = dropdown.querySelector('.sidebar-dropdown-toggle');
+        if (toggle) toggle.classList.add('active');
+      }
+    }
+  }
+
+  var initialHash = window.location.hash.slice(1);
+  if (!initialHash || !TOOL_MAP[initialHash]) initialHash = 'python';
+  if (!window.location.hash || !TOOL_MAP[window.location.hash.slice(1)]) {
+    window.location.hash = initialHash;
+  }
+  switchPanel(initialHash);
+
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash.slice(1);
+    switchPanel(hash);
+  });
+}
+
 function initPythonDownloadButton() {
   const downloadBtn = document.getElementById('pyDownload');
   const codeArea = document.getElementById('pyCode');

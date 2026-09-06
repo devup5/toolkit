@@ -4,18 +4,26 @@
 
 const PAGE_PATHS = {
   'home.html': { nav: 'home', label: '首页' },
-  'about.html': { nav: 'about', label: '关于' },
-  'changelog.html': { nav: 'changelog', label: '更新日志' },
-  'python.html': { nav: 'python', label: 'Python', parent: 'compile' },
-  'php.html': { nav: 'php', label: 'PHP', parent: 'compile' },
-  'typescript.html': { nav: 'typescript', label: 'TypeScript', parent: 'compile' },
-  'html.html': { nav: 'html', label: 'HTML', parent: 'editor' },
-  'cascading-style-sheets.html': { nav: 'css', label: 'CSS', parent: 'editor' },
-  'javascript.html': { nav: 'javascript', label: 'JavaScript', parent: 'editor' },
-  'markdown.html': { nav: 'markdown', label: 'Markdown', parent: 'editor' },
-  'css-formatter.html': { nav: 'css-fmt', label: 'CSS 格式化', parent: 'frontend' },
-  'base64.html': { nav: 'base64', label: 'Base64', parent: 'frontend' },
-  'color-picker.html': { nav: 'color', label: '调色板', parent: 'frontend' },
+  'tool.html': { nav: 'tool', label: '工具' },
+};
+
+const HOME_HASHES = {
+  'home': { nav: 'home' },
+  'about': { nav: 'about' },
+  'changelog': { nav: 'changelog' },
+};
+
+const TOOL_HASHES = {
+  'python': { nav: 'python', parent: 'compile' },
+  'php': { nav: 'php', parent: 'compile' },
+  'typescript': { nav: 'typescript', parent: 'compile' },
+  'html': { nav: 'html', parent: 'editor' },
+  'css': { nav: 'css', parent: 'editor' },
+  'javascript': { nav: 'javascript', parent: 'editor' },
+  'markdown': { nav: 'markdown', parent: 'editor' },
+  'css-fmt': { nav: 'css-fmt', parent: 'frontend' },
+  'base64': { nav: 'base64', parent: 'frontend' },
+  'color': { nav: 'color', parent: 'frontend' },
 };
 
 function currentFileName() {
@@ -24,13 +32,21 @@ function currentFileName() {
 }
 
 function siteBase() {
-  return window.location.pathname.includes('/tools/') ? '../' : '';
+  return '';
 }
 
 /* ---------- 生成 Sidebar ---------- */
 function buildSidebar() {
   const cur = currentFileName();
-  const info = PAGE_PATHS[cur] || {};
+  const hash = (cur === 'tool.html' || cur === 'home.html') ? window.location.hash.slice(1) : '';
+  let info;
+  if (cur === 'tool.html' && hash && TOOL_HASHES[hash]) {
+    info = TOOL_HASHES[hash];
+  } else if (cur === 'home.html' && hash && HOME_HASHES[hash]) {
+    info = HOME_HASHES[hash];
+  } else {
+    info = PAGE_PATHS[cur] || {};
+  }
   const base = siteBase();
   const isNav = (name) => info.nav === name ? 'active' : '';
   const isParent = (name) => info.parent === name ? 'active' : '';
@@ -38,21 +54,21 @@ function buildSidebar() {
   return `
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-top">
-        <button type="button" class="sidebar-logo" data-nav="home.html">
+        <button type="button" class="sidebar-logo" data-nav="home.html#home">
           <span class="logo-mark">&lt;/&gt;</span>
           <span class="logo-name">Portfolio</span>
         </button>
       </div>
       <nav class="sidebar-nav">
-        <button type="button" class="sidebar-link ${isNav('home')}" data-nav="home.html">
+        <button type="button" class="sidebar-link ${isNav('home')}" data-nav="home.html#home">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           <span>首页</span>
         </button>
-        <button type="button" class="sidebar-link ${isNav('about')}" data-nav="about.html">
+        <button type="button" class="sidebar-link ${isNav('about')}" data-nav="home.html#about">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
           <span>关于</span>
         </button>
-        <button type="button" class="sidebar-link ${isNav('changelog')}" data-nav="changelog.html">
+        <button type="button" class="sidebar-link ${isNav('changelog')}" data-nav="home.html#changelog">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
           <span>更新日志</span>
         </button>
@@ -63,15 +79,15 @@ function buildSidebar() {
             <svg class="dropdown-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="sidebar-dropdown-menu">
-            <button type="button" class="sidebar-sublink ${isNav('php')}" data-nav="tools/php.html">
+            <button type="button" class="sidebar-sublink ${isNav('php')}" data-nav="tool.html#php">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="M7 12a2 2 0 012-2h2"/></svg>
               <span>PHP 运行</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('typescript')}" data-nav="tools/typescript.html">
+            <button type="button" class="sidebar-sublink ${isNav('typescript')}" data-nav="tool.html#typescript">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 17V8H7M13 17c.5.5 2 .5 2.5 0M9 12h5"/></svg>
               <span>TypeScript 运行</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('python')}" data-nav="tools/python.html">
+            <button type="button" class="sidebar-sublink ${isNav('python')}" data-nav="tool.html#python">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 8c0-1.5 1.5-2 3-2s3 .5 3 2-1 2-3 2-3-.5-3-2z"/><path d="M10 14c1.5 0 3-.5 3-2s-1.5-2-3-2-3 .5-3 2 1.5 2 3 2z"/></svg>
               <span>Python 运行</span>
             </button>
@@ -84,19 +100,19 @@ function buildSidebar() {
             <svg class="dropdown-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="sidebar-dropdown-menu">
-            <button type="button" class="sidebar-sublink ${isNav('html')}" data-nav="tools/html.html">
+            <button type="button" class="sidebar-sublink ${isNav('html')}" data-nav="tool.html#html">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
               <span>HTML</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('css')}" data-nav="tools/cascading-style-sheets.html">
+            <button type="button" class="sidebar-sublink ${isNav('css')}" data-nav="tool.html#css">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
               <span>CSS</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('javascript')}" data-nav="tools/javascript.html">
+            <button type="button" class="sidebar-sublink ${isNav('javascript')}" data-nav="tool.html#javascript">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v10c0 5.52 4.48 10 10 10s10-4.48 10-10V7L12 2z"/></svg>
               <span>JavaScript</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('markdown')}" data-nav="tools/markdown.html">
+            <button type="button" class="sidebar-sublink ${isNav('markdown')}" data-nav="tool.html#markdown">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM7 15l3-3 2 2 3-4 2 5"/></svg>
               <span>Markdown</span>
             </button>
@@ -109,15 +125,15 @@ function buildSidebar() {
             <svg class="dropdown-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="sidebar-dropdown-menu">
-            <button type="button" class="sidebar-sublink ${isNav('css-fmt')}" data-nav="tools/css-formatter.html">
+            <button type="button" class="sidebar-sublink ${isNav('css-fmt')}" data-nav="tool.html#css-fmt">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
               <span>CSS 格式化/压缩</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('base64')}" data-nav="tools/base64.html">
+            <button type="button" class="sidebar-sublink ${isNav('base64')}" data-nav="tool.html#base64">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/><path d="M7 7h.01M7 13h.01M7 19h.01"/></svg>
               <span>Base64 加密/解密</span>
             </button>
-            <button type="button" class="sidebar-sublink ${isNav('color')}" data-nav="tools/color-picker.html">
+            <button type="button" class="sidebar-sublink ${isNav('color')}" data-nav="tool.html#color">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
               <span>在线调色板</span>
             </button>
@@ -133,7 +149,7 @@ function buildSidebar() {
           <button type="button" class="sidebar-icon-btn" id="footerSettings" title="设置">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           </button>
-          <button type="button" class="sidebar-icon-btn" data-nav="about.html" title="关于我">
+          <button type="button" class="sidebar-icon-btn" data-nav="home.html#about" title="关于我">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
           </button>
         </div>
@@ -161,6 +177,17 @@ function initNavigation() {
 }
 
 function navigateTo(path) {
+  // If on tool.html and switching to another tool, just change the hash
+  var hashPos = path.indexOf('#');
+  if (hashPos > 0) {
+    var basePart = path.substring(0, hashPos);
+    var hashPart = path.substring(hashPos + 1);
+    if (currentFileName() === basePart) {
+      window.location.hash = hashPart;
+      return;
+    }
+  }
+
   const base = siteBase();
   const url = base + path;
 
@@ -212,9 +239,21 @@ function initDropdowns() {
       e.preventDefault();
       e.stopPropagation();
       const dropdown = toggle.closest('.sidebar-dropdown');
-      const wasOpen = dropdown.classList.contains('open');
-      document.querySelectorAll('.sidebar-dropdown').forEach(d => d.classList.remove('open'));
-      if (!wasOpen) dropdown.classList.add('open');
+      dropdown.classList.toggle('open');
     });
+  });
+}
+
+/* ---------- 首页 hash 变化时更新侧边栏高亮 ---------- */
+function initHomeSidebarSync() {
+  if (currentFileName() !== 'home.html') return;
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash.slice(1);
+    var nav = HOME_HASHES[hash] ? HOME_HASHES[hash].nav : 'home';
+    document.querySelectorAll('.sidebar-link, .sidebar-sublink, .sidebar-dropdown-toggle').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    var link = document.querySelector('.sidebar-link[data-nav="home.html#' + nav + '"]');
+    if (link) link.classList.add('active');
   });
 }

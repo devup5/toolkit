@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <script>(function(){var s=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',s||(d?'dark':'light'));})();</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具 — 寒枝可栖</title>
+    <meta name="author" content="寒枝可栖">
+    <link rel="icon" href="home-icon.jpeg">
+    <link rel="stylesheet" href="style/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
+</head>
+<body>
+    <div id="loadingBarMount"></div>
+    <div id="sidebarMount"></div>
+
+    <div class="pages">
+        <section class="page active">
+            <div class="try-wrap">
+                <div class="try-main">
+
+                    <!-- ========== Python ========== -->
+                    <div class="try-panel active" id="panel-python" data-tool="python">
+                        <div class="try-toolbar">
+                            <span class="try-url">Python 在线运行</span>
+                            <div class="py-actions">
+                                <select class="py-engine-select" id="pyEngine" title="选择运行引擎">
+                                    <option value="builtin">系统自带（快速）</option>
+                                    <option value="pyodide">Pyodide（完整）</option>
+                                </select>
+                                <input type="file" id="pyImportFile" accept=".py,.txt" style="display:none">
+                                <button class="md-btn" id="pyImport" title="导入 .py 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="pyDownload" title="下载 .py 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="pyRun">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    运行
+                                </button>
+                            </div>
+                        </div>
+                        <div class="py-wrap">
+                            <div class="py-editor-area">
+                                <div class="py-editor-header">main.py</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="pyHighlight" aria-hidden="true"><code class="language-python"></code></pre>
+                                    <textarea id="pyCode" spellcheck="false" placeholder="# 在此输入 Python 代码">print("Hello, World!")
+
+for i in range(5):
+    print(f"第 {i+1} 次循环")</textarea>
+                                </div>
+                            </div>
+                            <div class="py-output-area">
+                                <div class="py-output-header">输出</div>
+                                <div class="py-output" id="pyOutput"><span class="py-placeholder">点击「运行」执行代码</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== PHP ========== -->
+                    <div class="try-panel" id="panel-php" data-tool="php">
+                        <div class="try-toolbar">
+                            <span class="try-url">PHP 在线运行</span>
+                            <div class="py-actions">
+                                <input type="file" id="phpImportFile" accept=".php,.txt" style="display:none">
+                                <button class="md-btn" id="phpImport" title="导入 .php 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="phpDownload" title="下载 .php 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="phpRun">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    运行
+                                </button>
+                            </div>
+                        </div>
+                        <div class="py-wrap">
+                            <div class="py-editor-area">
+                                <div class="py-editor-header">index.php</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="phpHighlight" aria-hidden="true"><code class="language-php"></code></pre>
+                                    <textarea id="phpCode" spellcheck="false" placeholder="<?php // 在此输入 PHP 代码 ?>"><?php
+
+$users = [
+    ['name' => 'Alice', 'age' => 25],
+    ['name' => 'Bob',   'age' => 30],
+];
+
+foreach ($users as $u) {
+    echo "{$u['name']} is {$u['age']} years old\n";
+}
+
+$total = array_sum(array_column($users, 'age'));
+echo "Total age: $total\n";
+
+echo "\nPHP version: " . PHP_VERSION;?></textarea>
+                                </div>
+                            </div>
+                            <div class="py-output-area">
+                                <div class="py-output-header">输出</div>
+                                <div class="py-output" id="phpOutput"><span class="py-placeholder">点击「运行」执行代码</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== TypeScript ========== -->
+                    <div class="try-panel" id="panel-typescript" data-tool="typescript">
+                        <div class="try-toolbar">
+                            <span class="try-url">TypeScript 在线运行</span>
+                            <div class="py-actions">
+                                <input type="file" id="tsImportFile" accept=".ts,.tsx,.txt" style="display:none">
+                                <button class="md-btn" id="tsImport" title="导入 .ts 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="tsDownload" title="下载 .ts 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="tsRun">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                    运行
+                                </button>
+                            </div>
+                        </div>
+                        <div class="py-wrap">
+                            <div class="py-editor-area">
+                                <div class="py-editor-header">main.ts</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="tsHighlight" aria-hidden="true"><code class="language-typescript"></code></pre>
+                                    <textarea id="tsCode" spellcheck="false" placeholder="// 在此输入 TypeScript 代码">interface User {
+  name: string;
+  age: number;
+}
+
+const users: User[] = [
+  { name: "Alice", age: 25 },
+  { name: "Bob", age: 30 }
+];
+
+users.forEach(u => {
+  console.log(`${u.name} is ${u.age} years old`);
+});
+
+const sum = users.reduce((acc, u) => acc + u.age, 0);
+console.log(`Total age: ${sum}`);</textarea>
+                                </div>
+                            </div>
+                            <div class="py-output-area">
+                                <div class="py-output-header">输出</div>
+                                <div class="py-output" id="tsOutput"><span class="py-placeholder">点击「运行」执行代码</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== HTML ========== -->
+                    <div class="try-panel" id="panel-html" data-tool="html">
+                        <div class="try-toolbar">
+                            <span class="try-url">HTML 在线预览</span>
+                            <div class="md-actions">
+                                <input type="file" id="htmlImportFile" accept=".html,.htm,.txt" style="display:none">
+                                <button class="md-btn" id="htmlImport" title="导入 .html 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="htmlDownload" title="下载">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="htmlRefresh">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                                    刷新预览
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">HTML 代码</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="htmlHighlight" aria-hidden="true"><code class="language-markup"></code></pre>
+                                    <textarea id="htmlCode" spellcheck="false" placeholder="在此输入 HTML 代码"><!DOCTYPE html>
+<html>
+<head>
+  <title>预览</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    h1 { color: #3b82f6; }
+    .card { padding: 16px; border-radius: 8px; background: #f3f4f6; }
+  </style>
+</head>
+<body>
+  <h1>Hello, HTML!</h1>
+  <div class="card">
+    <p>这是一个 HTML 实时预览示例。</p>
+    <button onclick="alert('点击成功！')">点我</button>
+  </div>
+</body>
+</html></textarea>
+                                </div>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">预览</div>
+                                <iframe id="htmlPreview" class="web-preview" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== CSS ========== -->
+                    <div class="try-panel" id="panel-css" data-tool="css">
+                        <div class="try-toolbar">
+                            <span class="try-url">CSS 在线预览</span>
+                            <div class="md-actions">
+                                <input type="file" id="cssImportFile" accept=".css,.txt" style="display:none">
+                                <button class="md-btn" id="cssImport" title="导入 .css 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="cssDownload" title="下载">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="cssRefresh">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                                    刷新预览
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">CSS 代码</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="cssHighlight" aria-hidden="true"><code class="language-css"></code></pre>
+                                    <textarea id="cssCode" spellcheck="false" placeholder="在此输入 CSS 代码">/* 在这里写你的 CSS */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.demo-box {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 500px;
+}
+
+.demo-box h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.demo-btn {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.demo-btn:hover {
+  transform: translateY(-2px);
+}</textarea>
+                                </div>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">预览</div>
+                                <iframe id="cssPreview" class="web-preview" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== JavaScript ========== -->
+                    <div class="try-panel" id="panel-javascript" data-tool="javascript">
+                        <div class="try-toolbar">
+                            <span class="try-url">JavaScript 在线预览</span>
+                            <div class="md-actions">
+                                <input type="file" id="jsImportFile" accept=".js,.txt" style="display:none">
+                                <button class="md-btn" id="jsImport" title="导入 .js 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="jsDownload" title="下载">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                                <button class="try-run" id="jsRefresh">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                                    刷新预览
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">JavaScript 代码</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="jsHighlight" aria-hidden="true"><code class="language-javascript"></code></pre>
+                                    <textarea id="jsCode" spellcheck="false" placeholder="在此输入 JavaScript 代码">// 点击"刷新预览"在 iframe 中运行
+document.body.innerHTML = `
+  <div style="font-family:sans-serif;padding:30px;">
+    <h2 style="color:#0ea5e9;">JavaScript 预览</h2>
+    <p>当前时间：<span id="clock"></span></p>
+    <button id="btn" style="padding:8px 16px;background:#0ea5e9;color:white;border:none;border-radius:6px;cursor:pointer;">
+      点我计数
+    </button>
+    <p>点击次数：<span id="count">0</span></p>
+  </div>
+`;
+
+let count = 0;
+document.getElementById('btn').addEventListener('click', () => {
+  count++;
+  document.getElementById('count').textContent = count;
+});
+
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+}
+updateClock();
+setInterval(updateClock, 1000);</textarea>
+                                </div>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">预览</div>
+                                <iframe id="jsPreview" class="web-preview" sandbox="allow-scripts allow-forms allow-popups allow-modals"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== Markdown ========== -->
+                    <div class="try-panel" id="panel-markdown" data-tool="markdown">
+                        <div class="try-toolbar">
+                            <span class="try-url">Markdown 在线编辑</span>
+                            <div class="md-actions">
+                                <input type="file" id="mdImportFile" accept=".md,.txt" style="display:none">
+                                <button class="md-btn" id="mdImport" title="导入 .md 文件">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                                    导入
+                                </button>
+                                <button class="md-btn" id="mdCopy" title="复制">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                                    复制
+                                </button>
+                                <button class="md-btn" id="mdDownload" title="下载">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                                    下载
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">编辑</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="mdHighlight" aria-hidden="true"><code class="language-markdown"></code></pre>
+                                    <textarea id="mdCode" spellcheck="false" placeholder="# 在此输入 Markdown"># Hello World
+
+这是一个 **Markdown** 编辑器。
+
+## 功能列表
+- 实时预览
+- 代码高亮
+- 表格支持
+
+```python
+print("Hello!")
+```
+
+> 引用文本
+
+| 功能 | 状态 |
+|------|------|
+| 编辑 | ✅ |
+| 预览 | ✅ |</textarea>
+                                </div>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">预览</div>
+                                <div class="md-preview" id="mdPreview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== CSS 格式化/压缩 ========== -->
+                    <div class="try-panel" id="panel-css-fmt" data-tool="css-fmt">
+                        <div class="try-toolbar">
+                            <span class="try-url">CSS 格式化 / 压缩</span>
+                            <div class="py-actions">
+                                <button class="md-btn" id="cssFmtClear" title="清空">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                                    清空
+                                </button>
+                                <button class="md-btn" id="cssFmtCopy" title="复制结果">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                                    复制
+                                </button>
+                                <button class="try-run" id="cssFmtFormat">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
+                                    格式化
+                                </button>
+                                <button class="try-run" id="cssFmtCompress">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 3v5M21 3h-5M3 21v-5M3 21h5M3 3l18 18"/></svg>
+                                    压缩
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">输入 CSS</div>
+                                <div class="code-editor-wrap">
+                                    <pre class="code-highlight" id="cssFmtHighlight" aria-hidden="true"><code class="language-css"></code></pre>
+                                    <textarea id="cssFmtCode" spellcheck="false" placeholder="在此粘贴需要格式化或压缩的 CSS 代码">body{margin:0;padding:0;font-family:sans-serif}.container{max-width:1200px;margin:0 auto;padding:20px}.btn{display:inline-block;padding:10px 20px;border-radius:6px;background:#3b82f6;color:#fff;cursor:pointer;transition:all .2s}.btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15)}</textarea>
+                                </div>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">输出结果</div>
+                                <div class="code-editor-wrap" style="height:auto;">
+                                    <pre class="code-highlight" id="cssFmtOutputHighlight" aria-hidden="true"><code class="language-css"></code></pre>
+                                    <textarea id="cssFmtOutput" spellcheck="false" placeholder="格式化/压缩结果将显示在这里" readonly></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== Base64 ========== -->
+                    <div class="try-panel" id="panel-base64" data-tool="base64">
+                        <div class="try-toolbar">
+                            <span class="try-url">Base64 加密 / 解密</span>
+                            <div class="py-actions">
+                                <button class="md-btn" id="b64Clear" title="清空">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+                                    清空
+                                </button>
+                                <button class="md-btn" id="b64Swap" title="交换输入输出">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4l4 4M17 8v12M17 20l4-4M17 20l-4-4"/></svg>
+                                    交换
+                                </button>
+                                <button class="md-btn" id="b64Copy" title="复制结果">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                                    复制
+                                </button>
+                                <button class="try-run" id="b64Encode">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                                    编码
+                                </button>
+                                <button class="try-run" id="b64Decode">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+                                    解码
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md-wrap">
+                            <div class="md-editor-area">
+                                <div class="md-editor-header">输入</div>
+                                <textarea id="b64Input" spellcheck="false" placeholder="输入要编码或解码的文本" style="flex:1;width:100%;padding:16px;font-family:'JetBrains Mono',monospace;font-size:14px;background:var(--bg-input);color:var(--t1);border:none;resize:none;outline:none;">Hello, World!</textarea>
+                            </div>
+                            <div class="md-preview-area">
+                                <div class="md-preview-header">输出</div>
+                                <textarea id="b64Output" spellcheck="false" placeholder="结果将显示在这里" readonly style="flex:1;width:100%;padding:16px;font-family:'JetBrains Mono',monospace;font-size:14px;background:var(--bg-input);color:var(--t1);border:none;resize:none;outline:none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========== 调色板 ========== -->
+                    <div class="try-panel" id="panel-color" data-tool="color">
+                        <div class="try-toolbar">
+                            <span class="try-url">在线调色板</span>
+                            <div class="py-actions">
+                                <button class="md-btn" id="colorCopy" title="复制颜色值">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                                    复制
+                                </button>
+                            </div>
+                        </div>
+                        <div class="color-tool-wrap">
+                            <div class="color-picker-area">
+                                <div class="color-preview-large" id="colorPreview"></div>
+                                <input type="color" id="colorPicker" value="#3b82f6" style="width:100%;height:60px;border:none;border-radius:var(--r-md);cursor:pointer;background:none;">
+                                <div class="color-value-group">
+                                    <label class="color-value-item">
+                                        <span class="color-value-label">HEX</span>
+                                        <input type="text" id="colorHex" value="#3b82f6" spellcheck="false">
+                                    </label>
+                                    <label class="color-value-item">
+                                        <span class="color-value-label">RGB</span>
+                                        <input type="text" id="colorRgb" value="rgb(59, 130, 246)" spellcheck="false">
+                                    </label>
+                                    <label class="color-value-item">
+                                        <span class="color-value-label">HSL</span>
+                                        <input type="text" id="colorHsl" value="hsl(217, 91%, 60%)" spellcheck="false">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="color-palette-area">
+                                <div class="color-palette-header">配色方案</div>
+                                <div class="color-palette-tabs">
+                                    <button class="color-tab active" data-scheme="complementary">互补色</button>
+                                    <button class="color-tab" data-scheme="analogous">类似色</button>
+                                    <button class="color-tab" data-scheme="triadic">三元色</button>
+                                    <button class="color-tab" data-scheme="shades">明暗渐变</button>
+                                </div>
+                                <div class="color-palette-grid" id="colorPalette"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="footerMount"></div>
+    <div id="modalsMount"></div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script defer src="script/changelog.js"></script>
+    <script defer src="script/sidebar.js"></script>
+    <script defer src="script/setting.js"></script>
+    <script defer src="script/contextmenu.js"></script>
+    <script defer src="script/outer.js"></script>
+    <script defer src="script/tool.js"></script>
+</body>
+</html>

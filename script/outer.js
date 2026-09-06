@@ -4,7 +4,7 @@
 
 /* ---------- 生成 Footer ---------- */
 function buildFooter() {
-  const v = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.11';
+  const v = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.13.2';
   return `
     <div class="page-footer" id="pageFooter">
       <p>© 寒枝可栖 2026 保留所有权利.</p>
@@ -19,10 +19,10 @@ function buildModals() {
       <div class="changelog-modal">
         <div class="changelog-header">
           <div class="changelog-version">
-            <span class="changelog-old-ver">v3.10.5</span>
+            <span class="changelog-old-ver" id="changelogOldVer"></span>
 
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            <span class="changelog-new-ver">v3.11</span>
+            <span class="changelog-new-ver" id="changelogNewVer"></span>
           </div>
           <button class="changelog-close-x" id="changelogCloseX" aria-label="关闭">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
@@ -108,12 +108,12 @@ function buildModals() {
     </div>
 
     <div class="ctx-menu" id="ctxMenu">
-      <div class="ctx-item" data-nav="home.html">返回主页</div>
-      <div class="ctx-item" data-nav="changelog.html">更新日志</div>
+      <div class="ctx-item" data-nav="home.html#home">返回主页</div>
+      <div class="ctx-item" data-nav="home.html#changelog">更新日志</div>
       <div class="ctx-item" id="ctxCompileParent">编译工具</div>
       <div class="ctx-item" id="ctxEditorParent">前端编辑器</div>
       <div class="ctx-item" id="ctxFrontendParent">前端工具</div>
-      <div class="ctx-item" data-nav="about.html">关于</div>
+      <div class="ctx-item" data-nav="home.html#about">关于</div>
       <div class="ctx-item" id="ctxSettings">设置</div>
       <div class="ctx-separator" id="ctxSep"></div>
       <div class="ctx-item" id="ctxCopy">复制</div>
@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initSidebar();
   initDropdowns();
+  initHomeSidebarSync();
   initChangelog();
   initRunTime();
   initSettingsModal();
@@ -188,16 +189,22 @@ function initChangelog() {
     popupList.innerHTML = latest.items.map(item =>
       `<li><span class="changelog-tag changelog-tag-${item.tag}">${item.type}</span>${item.text}</li>`
     ).join('');
+    var oldVerEl = document.getElementById('changelogOldVer');
+    var newVerEl = document.getElementById('changelogNewVer');
+    if (oldVerEl && CHANGELOG_DATA.length > 1) oldVerEl.textContent = 'v' + CHANGELOG_DATA[1].version;
+    else if (oldVerEl) oldVerEl.textContent = 'v' + latest.version;
+    if (newVerEl) newVerEl.textContent = 'v' + latest.version;
   }
 
+  const ver = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.13.2';
   const seenVersion = localStorage.getItem('changelog_seen_version');
-  if (seenVersion !== (typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.11')) {
+  if (seenVersion !== ver) {
     setTimeout(() => overlay.classList.add('show'), 500);
   }
 
   const close = () => {
     overlay.classList.remove('show');
-    localStorage.setItem('changelog_seen_version', typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.11');
+    localStorage.setItem('changelog_seen_version', ver);
   };
 
   const closeX = document.getElementById('changelogCloseX');
@@ -283,7 +290,8 @@ function initCookieConsent() {
 /* ---------- 页面特定初始化钩子 ---------- */
 function initPageSpecific() {
   const cur = currentFileName();
-  if (cur === 'about.html') initAboutPage();
+  if (cur === 'home.html') initAboutPage();
+  if (cur === 'tool.html' && typeof initToolRouter === 'function') initToolRouter();
 }
 
 /* ---------- 关于页 ---------- */
@@ -349,4 +357,50 @@ function initAboutPage() {
   }
 
   window.triggerAboutStatsAnimation = playAnimation;
+}
+
+/* ---------- 首页路由器 — 通过 hash 切换 home/about/changelog ---------- */
+function initHomeRouter() {
+  var SECTION_MAP = {
+    'home': { page: 'page-home', title: '寒枝可栖 — Portfolio' },
+    'about': { page: 'page-about', title: '关于 — 寒枝可栖' },
+    'changelog': { page: 'page-changelog', title: '更新日志 — 寒枝可栖' }
+  };
+
+  function switchSection(hash) {
+    var sec = SECTION_MAP[hash];
+    if (!sec) {
+      hash = 'home';
+      sec = SECTION_MAP[hash];
+      window.location.hash = 'home';
+    }
+
+    document.querySelectorAll('.pages > .page').forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    var page = document.getElementById(sec.page);
+    if (page) page.classList.add('active');
+
+    document.title = sec.title;
+
+    if (hash === 'about' && window.triggerAboutStatsAnimation) {
+      window.triggerAboutStatsAnimation();
+    }
+
+    var pageScroll = page ? page.querySelector('.page-scroll') : null;
+    if (pageScroll) pageScroll.scrollTop = 0;
+  }
+
+  var initialHash = window.location.hash.slice(1);
+  if (!initialHash || !SECTION_MAP[initialHash]) initialHash = 'home';
+  if (!window.location.hash || !SECTION_MAP[window.location.hash.slice(1)]) {
+    window.location.hash = initialHash;
+  }
+  switchSection(initialHash);
+
+  window.addEventListener('hashchange', function() {
+    var hash = window.location.hash.slice(1);
+    switchSection(hash);
+  });
 }
