@@ -118,7 +118,7 @@ function initToolRouter() {
       el.classList.remove('active');
     });
 
-    var link = document.querySelector('[data-nav="tool.html#' + hash + '"]');
+    var link = document.querySelector('[data-nav="//devup5.github.io/tools#' + hash + '"]');
     if (link) {
       link.classList.add('active');
       var dropdown = link.closest('.sidebar-dropdown');

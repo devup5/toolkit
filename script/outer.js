@@ -4,7 +4,7 @@
 
 /* ---------- 生成 Footer ---------- */
 function buildFooter() {
-  const v = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.13.2';
+  const v = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.14.1';
   return `
     <div class="page-footer" id="pageFooter">
       <p>© 寒枝可栖 2026 保留所有权利.</p>
@@ -108,12 +108,12 @@ function buildModals() {
     </div>
 
     <div class="ctx-menu" id="ctxMenu">
-      <div class="ctx-item" data-nav="home.html#home">返回主页</div>
-      <div class="ctx-item" data-nav="home.html#changelog">更新日志</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/home#home">返回主页</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/home#changelog">更新日志</div>
       <div class="ctx-item" id="ctxCompileParent">编译工具</div>
       <div class="ctx-item" id="ctxEditorParent">前端编辑器</div>
       <div class="ctx-item" id="ctxFrontendParent">前端工具</div>
-      <div class="ctx-item" data-nav="home.html#about">关于</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/home#about">关于</div>
       <div class="ctx-item" id="ctxSettings">设置</div>
       <div class="ctx-separator" id="ctxSep"></div>
       <div class="ctx-item" id="ctxCopy">复制</div>
@@ -196,7 +196,7 @@ function initChangelog() {
     if (newVerEl) newVerEl.textContent = 'v' + latest.version;
   }
 
-  const ver = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.13.2';
+  const ver = typeof CHANGELOG_VERSION !== 'undefined' ? CHANGELOG_VERSION : '3.14.1';
   const seenVersion = localStorage.getItem('changelog_seen_version');
   if (seenVersion !== ver) {
     setTimeout(() => overlay.classList.add('show'), 500);
@@ -290,8 +290,8 @@ function initCookieConsent() {
 /* ---------- 页面特定初始化钩子 ---------- */
 function initPageSpecific() {
   const cur = currentFileName();
-  if (cur === 'home.html') initAboutPage();
-  if (cur === 'tool.html' && typeof initToolRouter === 'function') initToolRouter();
+  if (cur === '//devup5.github.io/home') { initAboutPage(); initHomeSearch(); }
+  if (cur === '//devup5.github.io/tools' && typeof initToolRouter === 'function') initToolRouter();
 }
 
 /* ---------- 关于页 ---------- */
@@ -402,5 +402,102 @@ function initHomeRouter() {
   window.addEventListener('hashchange', function() {
     var hash = window.location.hash.slice(1);
     switchSection(hash);
+  });
+}
+
+/* ---------- 首页搜索 ---------- */
+function initHomeSearch() {
+  var input = document.getElementById('homeSearchInput');
+  var results = document.getElementById('homeSearchResults');
+  if (!input || !results) return;
+
+  var TOOLS = [
+    { name: 'Python 在线运行', desc: '内置引擎，支持运行与下载', hash: 'python', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l3 3 5-5"/></svg>' },
+    { name: 'PHP 在线运行', desc: 'PHP 代码编译运行', hash: 'php', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12l3 3 5-5"/><circle cx="12" cy="12" r="10"/></svg>' },
+    { name: 'TypeScript 在线运行', desc: 'TS 编译运行', hash: 'typescript', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12l3 3 5-5"/><circle cx="12" cy="12" r="10"/></svg>' },
+    { name: 'HTML 在线预览', desc: '实时渲染网页', hash: 'html', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>' },
+    { name: 'CSS 在线预览', desc: '即时查看样式效果', hash: 'css', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>' },
+    { name: 'JavaScript 在线预览', desc: 'iframe 沙盒运行', hash: 'javascript', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M10 17l-2-5M14 17l2-5"/></svg>' },
+    { name: 'Markdown 编辑器', desc: '实时预览与代码高亮', hash: 'markdown', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M7 15V9l3 3 3-3v6"/></svg>' },
+    { name: 'CSS 格式化 / 压缩', desc: '格式化或压缩 CSS 代码', hash: 'css-fmt', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h16"/></svg>' },
+    { name: 'Base64 加密 / 解密', desc: '编码与解码文本', hash: 'base64', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>' },
+    { name: '在线调色板', desc: '颜色选择与配色方案', hash: 'color', icon: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><circle cx="12" cy="16" r="1"/></svg>' }
+  ];
+
+  var selectedIndex = -1;
+  var currentResults = [];
+
+  function render(query) {
+    if (!query) { results.classList.remove('show'); results.innerHTML = ''; return; }
+    var q = query.toLowerCase();
+    var matched = TOOLS.filter(function(t) {
+      return t.name.toLowerCase().indexOf(q) >= 0 || t.desc.toLowerCase().indexOf(q) >= 0 || t.hash.indexOf(q) >= 0;
+    });
+    currentResults = matched;
+    selectedIndex = -1;
+    var html = '';
+    matched.slice(0, 6).forEach(function(t, i) {
+      html += '<div class="landing-search-item" data-hash="' + t.hash + '" data-index="' + i + '"><div class="landing-search-item-icon">' + t.icon + '</div><div class="landing-search-item-info"><span class="landing-search-item-name">' + t.name + '</span><span class="landing-search-item-desc">' + t.desc + '</span></div></div>';
+    });
+    html += '<div class="landing-search-item-web">在搜索引擎中搜索「<span>' + query + '</span>」</div>';
+    results.innerHTML = html;
+    results.classList.add('show');
+    var items = results.querySelectorAll('.landing-search-item');
+    items.forEach(function(item) {
+      item.addEventListener('click', function() {
+        var hash = this.getAttribute('data-hash');
+        navigateTo('//devup5.github.io/tools/#' + hash);
+        input.value = '';
+        results.classList.remove('show');
+      });
+    });
+    var webItem = results.querySelector('.landing-search-item-web');
+    if (webItem) webItem.addEventListener('click', function() {
+      window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+      input.value = '';
+      results.classList.remove('show');
+    });
+  }
+
+  input.addEventListener('input', function() { render(this.value); });
+  input.addEventListener('keydown', function(e) {
+    var items = results.querySelectorAll('.landing-search-item');
+    if (e.key === 'Enter') {
+      if (selectedIndex >= 0 && items[selectedIndex]) {
+        var hash = items[selectedIndex].getAttribute('data-hash');
+        navigateTo('//devup5.github.io/tools/#' + hash);
+      } else if (currentResults.length > 0) {
+        navigateTo('//devup5.github.io/tools/#' + currentResults[0].hash);
+      } else {
+        window.open('https://www.google.com/search?q=' + encodeURIComponent(this.value), '_blank');
+      }
+      input.value = '';
+      results.classList.remove('show');
+      e.preventDefault();
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+      updateActive(items);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      updateActive(items);
+    } else if (e.key === 'Escape') {
+      input.value = '';
+      results.classList.remove('show');
+    }
+  });
+
+  function updateActive(items) {
+    items.forEach(function(item, i) {
+      if (i === selectedIndex) item.style.background = 'var(--bg-input)';
+      else item.style.background = '';
+    });
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!input.contains(e.target) && !results.contains(e.target)) {
+      results.classList.remove('show');
+    }
   });
 }

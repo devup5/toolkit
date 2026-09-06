@@ -7,8 +7,8 @@
     <title>寒枝可栖 — Portfolio</title>
     <meta name="author" content="寒枝可栖">
     <meta name="robots" content="index, follow">
-    <link rel="icon" href="home-icon.jpeg">
-    <link rel="stylesheet" href="style/home.css">
+    <link rel="icon" href="../home-icon.jpeg">
+    <link rel="stylesheet" href="../style/home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"></noscript>
@@ -77,9 +77,17 @@
                         <span class="landing-title-fill">寒枝可栖</span>
                     </h1>
                     <p class="landing-desc">聚合 PHP、TypeScript、Python 运行与前端开发工具——让开发与创作，变得简单高效。</p>
+                    <div class="landing-search-wrap">
+                        <div class="landing-search">
+                            <svg class="landing-search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                            <input type="text" id="homeSearchInput" class="landing-search-input" placeholder="搜索工具或输入关键词…" autocomplete="off">
+                            <kbd class="landing-search-kbd">Enter</kbd>
+                        </div>
+                        <div class="landing-search-results" id="homeSearchResults"></div>
+                    </div>
                     <div class="landing-btns">
-                        <button type="button" class="btn btn-dark" data-nav="tool.php#python">在线工具</button>
-                        <button type="button" class="btn btn-light" data-nav="home.html#about">关于</button>
+                        <button type="button" class="btn btn-dark" data-nav="//devup5.github.io/tools#python">在线工具</button>
+                        <button type="button" class="btn btn-light" data-nav="//devup5.github.io/home#about">关于</button>
                     </div>
                     <div class="landing-stats">
                         <div class="stat-item">
@@ -107,15 +115,11 @@
                 <div class="container">
                     <div class="about-hero">
                         <div class="about-hero-left">
-                            <p class="about-eyebrow">PERSONAL PORTFOLIO</p>
+                            <p class="about-eyebrow">ABOUT</p>
                             <h2 class="about-title">
-                                <span class="about-title-fill">寒枝可栖</span>
+                                <span class="about-title-fill">关于项目</span>
                                 <span class="about-title-outline">About This Site</span>
                             </h2>
-                            <p class="about-desc">纯浏览器端在线工具站——在网页中写 Python、HTML、CSS、JavaScript 与 Markdown，无需安装任何环境，打开即用。</p>
-                            <div class="about-btns">
-                                <button type="button" class="btn btn-dark" data-nav="tool.php#python">开始使用</button>
-                            </div>
                         </div>
                         <div class="about-hero-right">
                             <div class="about-deco" aria-hidden="true">&lt;/&gt;</div>
@@ -144,114 +148,82 @@
                         </div>
                     </div>
 
+                    <!-- 01 关于项目 -->
                     <div class="about-section">
                         <div class="sec-head">
                             <span class="sec-num">01</span>
-                            <h3 class="sec-title">技术栈</h3>
+                            <h3 class="sec-title">关于项目</h3>
                         </div>
-                        <div class="about-tech-grid">
-                            <div class="about-tech-card">
-                                <span class="about-tech-icon">🌐</span>
-                                <span class="about-tech-name">前端三件套</span>
-                                <span class="about-tech-detail">HTML · CSS · JavaScript</span>
-                            </div>
-                            <div class="about-tech-card">
-                                <span class="about-tech-icon">🐍</span>
-                                <span class="about-tech-name">Python</span>
-                                <span class="about-tech-detail">内置引擎在线运行</span>
-                            </div>
-                            <div class="about-tech-card">
-                                <span class="about-tech-icon">📝</span>
-                                <span class="about-tech-name">Markdown</span>
-                                <span class="about-tech-detail">实时编辑与预览</span>
-                            </div>
-                            <div class="about-tech-card">
-                                <span class="about-tech-icon">🚀</span>
-                                <span class="about-tech-name">网站部署</span>
-                                <span class="about-tech-detail">GitHub Pages · Cloudflare</span>
-                            </div>
+                        <div class="about-bio">
+                            <p>这是一个纯浏览器端的在线工具聚合平台。提供 Python、PHP、TypeScript 编译运行与前端开发工具，浏览器点开即用。</p>
+                            <p>我只负责架构设计、业务逻辑梳理与 Debug 环节——说人话就是出点子、做测试。相关的实践经验，以后如果有空会在博客做些总结。</p>
+                            <p>代码谈不上优雅，结构也未必规范，但它能跑、能用，还能帮到别人，我就挺开心的。</p>
                         </div>
                     </div>
 
+                    <!-- 02 功能亮点 -->
                     <div class="about-section">
                         <div class="sec-head">
                             <span class="sec-num">02</span>
-                            <h3 class="sec-title">在线工具</h3>
+                            <h3 class="sec-title">功能亮点</h3>
                         </div>
-                        <div class="about-tool-list">
-                            <button class="about-tool-item" data-nav="tool.php#python">
-                                <span class="about-tool-icon">🐍</span>
-                                <div class="about-tool-info">
-                                    <span class="about-tool-name">Python 在线运行</span>
-                                    <span class="about-tool-desc">内置语法解析引擎，支持运行与下载</span>
+                        <div class="about-features-grid">
+                            <div class="about-feature-card">
+                                <div class="about-feature-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
                                 </div>
-                            </button>
-                            <button class="about-tool-item" data-nav="tool.php#html">
-                                <span class="about-tool-icon">📄</span>
-                                <div class="about-tool-info">
-                                    <span class="about-tool-name">HTML 在线预览</span>
-                                    <span class="about-tool-desc">实时渲染网页，支持导入与下载</span>
+                                <span class="about-feature-num">01</span>
+                                <h4 class="about-feature-name">分类清晰</h4>
+                                <p class="about-feature-desc">编译工具与前端工具两大分类，快速定位所需资源。</p>
+                            </div>
+                            <div class="about-feature-card">
+                                <div class="about-feature-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                                 </div>
-                            </button>
-                            <button class="about-tool-item" data-nav="tool.php#css">
-                                <span class="about-tool-icon">🎨</span>
-                                <div class="about-tool-info">
-                                    <span class="about-tool-name">CSS 在线预览</span>
-                                    <span class="about-tool-desc">即时查看样式效果，支持导入与下载</span>
+                                <span class="about-feature-num">02</span>
+                                <h4 class="about-feature-name">智能搜索</h4>
+                                <p class="about-feature-desc">搜索引擎一键切换，直达在线工具或外部网站。</p>
+                            </div>
+                            <div class="about-feature-card">
+                                <div class="about-feature-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
                                 </div>
-                            </button>
-                            <button class="about-tool-item" data-nav="tool.php#javascript">
-                                <span class="about-tool-icon">⚡</span>
-                                <div class="about-tool-info">
-                                    <span class="about-tool-name">JavaScript 在线预览</span>
-                                    <span class="about-tool-desc">iframe 沙盒运行，实时查看效果</span>
+                                <span class="about-feature-num">03</span>
+                                <h4 class="about-feature-name">主题切换</h4>
+                                <p class="about-feature-desc">深浅色模式自由切换，自动记忆用户偏好。</p>
+                            </div>
+                            <div class="about-feature-card">
+                                <div class="about-feature-icon">
+                                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                                 </div>
-                            </button>
-                            <button class="about-tool-item" data-nav="tool.php#markdown">
-                                <span class="about-tool-icon">📝</span>
-                                <div class="about-tool-info">
-                                    <span class="about-tool-name">Markdown 编辑器</span>
-                                    <span class="about-tool-desc">实时预览、代码高亮、复制与下载</span>
-                                </div>
-                            </button>
+                                <span class="about-feature-num">04</span>
+                                <h4 class="about-feature-name">隐私保护</h4>
+                                <p class="about-feature-desc">Cookie 同意管理、透明的隐私政策与可选分析。</p>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- 03 建议 & 反馈 -->
                     <div class="about-section">
                         <div class="sec-head">
                             <span class="sec-num">03</span>
-                            <h3 class="sec-title">关于我</h3>
+                            <h3 class="sec-title">建议 &amp; 反馈</h3>
                         </div>
-                        <div class="about-bio">
-                            <p>寒枝可栖，独立开发者，专注于前端工程与 Python 编程。</p>
-                            <p>本站所有工具均在浏览器端运行，无需后端服务，代码开源透明。打开浏览器，即可开始编码——让开发与创作，变得简单高效。</p>
+                        <div class="about-feedback">
+                            <div class="about-feedback-left">
+                                <p class="about-feedback-line">有 Bug？</p>
+                                <p class="about-feedback-line">有新想法？</p>
+                                <p class="about-feedback-arrow">通过下方表单告诉我们 →</p>
+                            </div>
+                            <button type="button" class="btn btn-dark about-feedback-btn" id="aboutFeedback">在线反馈</button>
                         </div>
-                        <div class="about-links">
-                            <button type="button" class="about-link-btn" id="aboutGithub">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.26.82-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.3 1.23A11.5 11.5 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.218.694.825.576C20.565 21.795 24 17.298 24 12 24 5.37 18.627 0 12 0z"/></svg>
-                                GitHub
-                            </button>
-                            <button type="button" class="about-link-btn" id="aboutBilibili">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.266-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906L17.813 4.653zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.764-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zM8 11.107c.373 0 .684.124.933.373.25.249.382.569.4.96v1.173c-.018.391-.15.711-.4.96-.249.249-.56.373-.933.373s-.684-.124-.933-.373c-.25-.249-.382-.569-.4-.96v-1.173c.018-.391.15-.711.4-.96.249-.249.56-.373.933-.373zm8 0c.373 0 .684.124.933.373.25.249.382.569.4.96v1.173c-.018.391-.15.711-.4.96-.249.249-.56.373-.933.373s-.684-.124-.933-.373c-.25-.249-.382-.569-.4-.96v-1.173c.018-.391.15-.711.4-.96.249-.249.56-.373.933-.373z"/></svg>
-                                bilibili
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="about-section">
-                        <div class="sec-head">
-                            <span class="sec-num">04</span>
-                            <h3 class="sec-title">在线反馈</h3>
-                        </div>
-                        <p class="about-feedback-desc">如有建议或问题，欢迎填写反馈表单。</p>
-                        <button type="button" class="btn btn-dark" id="aboutFeedback">填写反馈</button>
                         <div class="about-feedback-iframe" id="feedbackIframe" style="display:none;">
-                            <iframe src="https://ucnorm1g4otv.feishu.cn/share/base/form/shrcnxkdgLMr6FY2cItk0X1v6xp" frameborder="0" allowfullscreen="" class="iframe-form" style="width: 100%; height: 750px; display: block;"></iframe>
+                            <iframe src="https://6nqd6k8n.jsjform.com/f/DHOf96?x_field_1=toolkit" frameborder="0" allowfullscreen="" class="iframe-form" style="width: 100%; height: 650px; display: block;"></iframe>
                         </div>
                     </div>
 
                     <div class="about-section about-footer-note">
-                        <p>© 2026 寒枝可栖 · devup5.github.io · All tools run in browser</p>
+                        <p>© 2026 寒枝可栖 · All tools run in browser</p>
                     </div>
                 </div>
             </div>
@@ -271,7 +243,7 @@
                             <p class="about-desc">记录本站每一次迭代与成长，见证从无到有的每一步。</p>
                         </div>
                         <div class="about-hero-right">
-                            <div class="about-deco" id="changelogDeco" aria-hidden="true">v3.13.2</div>
+                            <div class="about-deco" id="changelogDeco" aria-hidden="true">v3.14.1</div>
                         </div>
                     </div>
 
@@ -286,11 +258,11 @@
     <div id="footerMount"></div>
     <div id="modalsMount"></div>
 
-    <script defer src="script/changelog.js"></script>
-    <script defer src="script/sidebar.js"></script>
-    <script defer src="script/setting.js"></script>
-    <script defer src="script/contextmenu.js"></script>
-    <script defer src="script/outer.js"></script>
+    <script defer src="../script/changelog.js"></script>
+    <script defer src="../script/sidebar.js"></script>
+    <script defer src="../script/setting.js"></script>
+    <script defer src="../script/contextmenu.js"></script>
+    <script defer src="../script/outer.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof initHomeRouter === 'function') initHomeRouter();

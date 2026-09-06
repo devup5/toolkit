@@ -27,9 +27,9 @@ function initContextMenu() {
     const paste = document.getElementById('ctxPaste');
     const cut = document.getElementById('ctxCut');
     const search = document.getElementById('ctxSearch');
-    const home = document.querySelector('#ctxMenu [data-nav="home.html#home"]');
-    const changelog = document.querySelector('#ctxMenu [data-nav="home.html#changelog"]');
-    const about = document.querySelector('#ctxMenu [data-nav="home.html#about"]');
+    const home = document.querySelector('#ctxMenu [data-nav="//devup5.github.io/home#home"]');
+    const changelog = document.querySelector('#ctxMenu [data-nav="//devup5.github.io/home#changelog"]');
+    const about = document.querySelector('#ctxMenu [data-nav="//devup5.github.io/home#about"]');
     const compile = document.getElementById('ctxCompileParent');
     const editor = document.getElementById('ctxEditorParent');
     const frontend = document.getElementById('ctxFrontendParent');
@@ -62,17 +62,17 @@ function initContextMenu() {
 
   if (document.getElementById('ctxCompileParent')) {
     document.getElementById('ctxCompileParent').addEventListener('click', (e) => {
-      e.stopPropagation(); closeAllCtx(); navigateTo('tool.html#php');
+      e.stopPropagation(); closeAllCtx(); navigateTo('//devup5.github.io/tools#php');
     });
   }
   if (document.getElementById('ctxEditorParent')) {
     document.getElementById('ctxEditorParent').addEventListener('click', (e) => {
-      e.stopPropagation(); closeAllCtx(); navigateTo('tool.html#html');
+      e.stopPropagation(); closeAllCtx(); navigateTo('//devup5.github.io/tools#html');
     });
   }
   if (document.getElementById('ctxFrontendParent')) {
     document.getElementById('ctxFrontendParent').addEventListener('click', (e) => {
-      e.stopPropagation(); closeAllCtx(); navigateTo('tool.html#css-fmt');
+      e.stopPropagation(); closeAllCtx(); navigateTo('//devup5.github.io/tools#css-fmt');
     });
   }
 

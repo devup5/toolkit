@@ -2,9 +2,26 @@
    更新日志数据 — 独立存储，便于维护
    ================================================================ */
 
-const CHANGELOG_VERSION = '3.13.2';
+const CHANGELOG_VERSION = '3.14.1';
 
 const CHANGELOG_DATA = [
+  {
+    version: '3.14.1',
+    date: '2026-09-06',
+    items: [
+      { type: '重构', tag: 'optimize', text: '重构网站跳转逻辑' },
+    ]
+  },
+  {
+    version: '3.14',
+    date: '2026-09-06',
+    items: [
+      { type: '新增', tag: 'new', text: '首页顶部新增搜索输入框，支持搜索工具名称并一键跳转，无匹配时回车跳转搜索引擎' },
+      { type: '重构', tag: 'optimize', text: '关于页布局重构：01关于项目 / 02功能亮点 / 03建议反馈，三段式结构更清晰' },
+      { type: '新增', tag: 'new', text: '功能亮点新增四张卡片：分类清晰、智能搜索、主题切换、隐私保护' },
+      { type: '优化', tag: 'optimize', text: '搜索结果支持键盘上下键选择与 Enter 确认，Esc 清空关闭' }
+    ]
+  },
   {
     version: '3.13.2',
     date: '2026-09-06',
