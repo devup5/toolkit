@@ -289,9 +289,11 @@ function initCookieConsent() {
 
 /* ---------- 页面特定初始化钩子 ---------- */
 function initPageSpecific() {
-  const cur = currentFileName();
-  if (cur === '//devup5.github.io/toolkit/home') { initAboutPage(); initHomeSearch(); }
-  if (cur === '//devup5.github.io/toolkit/tools' && typeof initToolRouter === 'function') initToolRouter();
+  var path = window.location.pathname.replace(/\/+$/, '');
+  var isHome = /\/home$/.test(path) || /\/home\/index\.html$/.test(path);
+  var isTools = /\/tools$/.test(path) || /\/tools\/index\.html$/.test(path);
+  if (isHome) { initAboutPage(); initHomeSearch(); }
+  if (isTools && typeof initToolRouter === 'function') initToolRouter();
 }
 
 /* ---------- 关于页 ---------- */

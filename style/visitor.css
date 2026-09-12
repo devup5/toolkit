@@ -1,0 +1,62 @@
+/* ================================================================
+   visitor.css — 访客模式专属样式（仅在 blog/index.html 中引用）
+   ================================================================ */
+
+/* ---------- 顶部悬浮通知 ---------- */
+.visitor-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: var(--bg-card, #fff);
+    border: 1px solid var(--line, #e5e7eb);
+    border-radius: 999px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    font-size: 0.9rem;
+    color: var(--t2, #374151);
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.visitor-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.visitor-toast-icon {
+    flex-shrink: 0;
+    color: var(--highlight, #3b82f6);
+}
+
+.visitor-toast-msg {
+    flex: 1;
+}
+
+.visitor-toast-msg a {
+    color: var(--highlight, #3b82f6);
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.visitor-toast-msg a:hover {
+    opacity: 0.8;
+}
+
+/* ---------- 访客模式侧边栏禁用态 ---------- */
+.visitor-sidebar-disabled .sidebar-link,
+.visitor-sidebar-disabled .sidebar-sublink,
+.visitor-sidebar-disabled .sidebar-dropdown-toggle,
+.visitor-sidebar-disabled .sidebar-icon-btn,
+.visitor-sidebar-disabled .sidebar-logo {
+    cursor: not-allowed;
+}

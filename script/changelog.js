@@ -2,9 +2,19 @@
    更新日志数据 — 独立存储，便于维护
    ================================================================ */
 
-const CHANGELOG_VERSION = '3.14.1';
+const CHANGELOG_VERSION = '3.15';
 
 const CHANGELOG_DATA = [
+  {
+    version: '3.15',
+    date: '2026-09-12',
+    items: [
+      { type: '新增', tag: 'new', text: '新建 visitor.js 访客模式：右键禁止、快捷键禁止（Ctrl+U/I/J/S、F12）、顶部悬浮通知' },
+      { type: '新增', tag: 'new', text: 'blog/index.html 仅链接 visitor.js 与 visitor.css，侧边栏点击弹悬浮窗提示返回主页' },
+      { type: '修复', tag: 'fix', text: '修复 tools/index.html hash 路由失效：initPageSpecific 改用 pathname 检测代替 filename 比较' },
+      { type: '修复', tag: 'fix', text: '修复 navigateTo 同页面 hash 切换逻辑：normalize 路径后比较，支持文件夹结构' }
+    ]
+  },
   {
     version: '3.14.1',
     date: '2026-09-06',

@@ -37,15 +37,17 @@ function siteBase() {
 
 /* ---------- 生成 Sidebar ---------- */
 function buildSidebar() {
-  const cur = currentFileName();
-  const hash = (cur === '' || cur === '') ? window.location.hash.slice(1) : '';
+  var path = window.location.pathname.replace(/\/+$/, '');
+  var isTools = /\/tools$/.test(path) || /\/tools\/index\.html$/.test(path);
+  var isHome = /\/home$/.test(path) || /\/home\/index\.html$/.test(path);
+  const hash = (isTools || isHome) ? window.location.hash.slice(1) : '';
   let info;
-  if (cur === 'tool' && hash && TOOL_HASHES[hash]) {
+  if (isTools && hash && TOOL_HASHES[hash]) {
     info = TOOL_HASHES[hash];
-  } else if (cur === '' && hash && HOME_HASHES[hash]) {
+  } else if (isHome && hash && HOME_HASHES[hash]) {
     info = HOME_HASHES[hash];
   } else {
-    info = PAGE_PATHS[cur] || {};
+    info = PAGE_PATHS['index.html'] || {};
   }
   const base = siteBase();
   const isNav = (name) => info.nav === name ? 'active' : '';
@@ -173,12 +175,16 @@ function initNavigation() {
 }
 
 function navigateTo(path) {
-  // If on tool.html and switching to another tool, just change the hash
+  // Same-page hash switching: if the path's URL part matches current page, just change hash
   var hashPos = path.indexOf('#');
   if (hashPos > 0) {
     var basePart = path.substring(0, hashPos);
     var hashPart = path.substring(hashPos + 1);
-    if (currentFileName() === basePart) {
+
+    // Normalize: strip protocol+host from both sides, compare path only
+    var targetPath = basePart.replace(/^https?:\/\/[^/]+/, '').replace(/\/+$/, '');
+    var curPath = window.location.pathname.replace(/\/+$/, '');
+    if (targetPath === curPath || targetPath + '/index.html' === window.location.pathname || targetPath + '/index.html' === curPath + '/index.html') {
       window.location.hash = hashPart;
       return;
     }
@@ -242,7 +248,8 @@ function initDropdowns() {
 
 /* ---------- 首页 hash 变化时更新侧边栏高亮 ---------- */
 function initHomeSidebarSync() {
-  if (currentFileName() !== '//devup5.github.io/toolkit/home') return;
+  var path = window.location.pathname.replace(/\/+$/, '');
+  if (!/\/home$/.test(path) && !/\/home\/index\.html$/.test(path)) return;
   window.addEventListener('hashchange', function() {
     var hash = window.location.hash.slice(1);
     var nav = HOME_HASHES[hash] ? HOME_HASHES[hash].nav : 'home';
