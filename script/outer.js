@@ -108,12 +108,12 @@ function buildModals() {
     </div>
 
     <div class="ctx-menu" id="ctxMenu">
-      <div class="ctx-item" data-nav="//devup5.github.io/home#home">返回主页</div>
-      <div class="ctx-item" data-nav="//devup5.github.io/home#changelog">更新日志</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/toolkit/home#home">返回主页</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/toolkit/home#changelog">更新日志</div>
       <div class="ctx-item" id="ctxCompileParent">编译工具</div>
       <div class="ctx-item" id="ctxEditorParent">前端编辑器</div>
       <div class="ctx-item" id="ctxFrontendParent">前端工具</div>
-      <div class="ctx-item" data-nav="//devup5.github.io/home#about">关于</div>
+      <div class="ctx-item" data-nav="//devup5.github.io/toolkit/home#about">关于</div>
       <div class="ctx-item" id="ctxSettings">设置</div>
       <div class="ctx-separator" id="ctxSep"></div>
       <div class="ctx-item" id="ctxCopy">复制</div>
@@ -290,8 +290,8 @@ function initCookieConsent() {
 /* ---------- 页面特定初始化钩子 ---------- */
 function initPageSpecific() {
   const cur = currentFileName();
-  if (cur === '//devup5.github.io/home') { initAboutPage(); initHomeSearch(); }
-  if (cur === '//devup5.github.io/tools' && typeof initToolRouter === 'function') initToolRouter();
+  if (cur === '//devup5.github.io/toolkit/home') { initAboutPage(); initHomeSearch(); }
+  if (cur === '//devup5.github.io/toolkit/tools' && typeof initToolRouter === 'function') initToolRouter();
 }
 
 /* ---------- 关于页 ---------- */
@@ -446,7 +446,7 @@ function initHomeSearch() {
     items.forEach(function(item) {
       item.addEventListener('click', function() {
         var hash = this.getAttribute('data-hash');
-        navigateTo('//devup5.github.io/tools/#' + hash);
+        navigateTo('//devup5.github.io/toolkit/tools/#' + hash);
         input.value = '';
         results.classList.remove('show');
       });
@@ -465,9 +465,9 @@ function initHomeSearch() {
     if (e.key === 'Enter') {
       if (selectedIndex >= 0 && items[selectedIndex]) {
         var hash = items[selectedIndex].getAttribute('data-hash');
-        navigateTo('//devup5.github.io/tools/#' + hash);
+        navigateTo('//devup5.github.io/toolkit/tools/#' + hash);
       } else if (currentResults.length > 0) {
-        navigateTo('//devup5.github.io/tools/#' + currentResults[0].hash);
+        navigateTo('//devup5.github.io/toolkit/tools/#' + currentResults[0].hash);
       } else {
         window.open('https://www.google.com/search?q=' + encodeURIComponent(this.value), '_blank');
       }
